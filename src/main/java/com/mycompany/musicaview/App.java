@@ -27,37 +27,18 @@ public class App extends Application {
 
     public void start(Stage primaryStage) throws IOException {
 
-        emf = Persistence.createEntityManagerFactory("musicaPU");
+        emf = Persistence.createEntityManagerFactory("MusicaviewPU");
         em = emf.createEntityManager();
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("primary.fxml"));
         Parent root = fxmlLoader.load();
         PrimaryController musicaViewController = (PrimaryController) fxmlLoader.getController();
         musicaViewController.setEntityManager(em);
-       //musicaViewController.cargarcanciones();
+        musicaViewController.cargarCanciones();
         Scene scene = new Scene(root, 300, 250);
 
     }
-
-     void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
-
-    private  Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        primaryController = (PrimaryController) fxmlLoader.getController();
-        System.out.println("PrimaryControler:" + primaryController);
-        // Después de obtener el objeto del controlador y del EntityManager:
-        primaryController.setEntityManager(em);
-        return fxmlLoader.load();
-    }
-
-    public static void main(String[] args) {
-        launch();
-
-    }
-
-    @Override
+@Override
     public void stop() throws Exception {
         em.close();
         emf.close();
@@ -65,6 +46,26 @@ public class App extends Application {
             DriverManager.getConnection("jdbc:derby:BDmusica;shutdown=true");
         } catch (SQLException ex) {
         }
+    }
+    void setRoot(String fxml) throws IOException {
+        scene.setRoot(loadFXML(fxml));
+    }
+
+    private Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        primaryController = (PrimaryController) fxmlLoader.getController();
+        System.out.println("PrimaryControler:" + primaryController);
+        // Después de obtener el objeto del controlador y del EntityManager:
+        primaryController.setEntityManager(em);
+
+        return fxmlLoader.load();
+    }
+
+    
+
+    public static void main(String[] args) {
+        launch();
+
     }
 
 }

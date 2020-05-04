@@ -7,7 +7,7 @@
 
 <VBox alignment="CENTER" prefHeight="560.0" prefWidth="782.0" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.musicaview.PrimaryController">
    <children>
-      <TableView prefHeight="358.0" prefWidth="776.0">
+      <TableView fx:id="tableViewmusica" prefHeight="358.0" prefWidth="776.0">
         <columns>
           <TableColumn fx:id="columnaTitulo" prefWidth="176.79998397827148" text="Titulo" />
           <TableColumn fx:id="columnaAlbum" minWidth="7.199981689453125" prefWidth="236.79994201660156" text="Album" />
