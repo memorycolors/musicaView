@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.musicaview.PrimaryController">
+<VBox alignment="CENTER" prefHeight="560.0" prefWidth="782.0" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.musicaview.PrimaryController">
    <children>
-      <Label text="Primary View" />
-      <Button fx:id="primaryButton" text="Switch to Secondary View" onAction="#switchToSecondary"/>
+      <TableView prefHeight="358.0" prefWidth="776.0">
+        <columns>
+          <TableColumn fx:id="columnaTitulo" prefWidth="176.79998397827148" text="Titulo" />
+          <TableColumn fx:id="columnaAlbum" minWidth="7.199981689453125" prefWidth="236.79994201660156" text="Album" />
+            <TableColumn fx:id="columnaCantante" minWidth="0.0" prefWidth="193.60003662109375" text="Cantante" />
+        </columns>
+      </TableView>
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

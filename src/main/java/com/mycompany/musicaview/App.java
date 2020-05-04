@@ -22,53 +22,49 @@ public class App extends Application {
     private EntityManager em;
     private static Scene scene;
     private static PrimaryController primaryController;
+
     @Override
-    public void start(Stage stage) throws IOException {
-        
-       emf = Persistence.createEntityManagerFactory("musicaPU");
-       em = emf.createEntityManager();
 
-   FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("primary.fxml"));
-   Parent root = fxmlLoader.load();
-   PrimaryController musicaViewController = (PrimaryController) fxmlLoader.getController();                
-   musicaViewController.setEntityManager(em);
-   musicaViewController.cargarcanciones();
-   Scene scene = new Scene(root, 300, 250);
-                   
+    public void start(Stage primaryStage) throws IOException {
 
-     
+        emf = Persistence.createEntityManagerFactory("musicaPU");
+        em = emf.createEntityManager();
 
-   }
-        
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("primary.fxml"));
+        Parent root = fxmlLoader.load();
+        PrimaryController musicaViewController = (PrimaryController) fxmlLoader.getController();
+        musicaViewController.setEntityManager(em);
+       //musicaViewController.cargarcanciones();
+        Scene scene = new Scene(root, 300, 250);
 
+    }
 
-    static void setRoot(String fxml) throws IOException {
+     void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
+    private  Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-      primaryController=(PrimaryController)fxmlLoader.getController();
-       System.out.println("PrimaryControler:"+ primaryController);
-      // Después de obtener el objeto del controlador y del EntityManager:
-       primaryController.setEntityManager(em);
-       return fxmlLoader.load();
+        primaryController = (PrimaryController) fxmlLoader.getController();
+        System.out.println("PrimaryControler:" + primaryController);
+        // Después de obtener el objeto del controlador y del EntityManager:
+        primaryController.setEntityManager(em);
+        return fxmlLoader.load();
     }
 
-    
-    
     public static void main(String[] args) {
         launch();
-        
+
     }
+
     @Override
     public void stop() throws Exception {
-    em.close(); 
-    emf.close(); 
-    try { 
-        DriverManager.getConnection("jdbc:derby:BDmusica;shutdown=true"); 
-    } catch (SQLException ex) { 
-    }        
-}
-    
+        em.close();
+        emf.close();
+        try {
+            DriverManager.getConnection("jdbc:derby:BDmusica;shutdown=true");
+        } catch (SQLException ex) {
+        }
+    }
+
 }
