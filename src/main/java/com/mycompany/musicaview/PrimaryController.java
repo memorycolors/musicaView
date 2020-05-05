@@ -38,8 +38,8 @@ public class PrimaryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        columnaTitulo.setCellValueFactory(new PropertyValueFactory<>("Titulo"));
-        columnaAlbum.setCellValueFactory(new PropertyValueFactory<>("Album"));
-        columnaCantante.setCellValueFactory(new PropertyValueFactory<>("Cantante"));
+        columnaTitulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
+        columnaAlbum.setCellValueFactory(new PropertyValueFactory<>("album"));
+        columnaCantante.setCellValueFactory(new PropertyValueFactory<>("cantante"));
     }
 }

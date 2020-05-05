@@ -20,7 +20,7 @@ public class App extends Application {
 
     private EntityManagerFactory emf;
     private EntityManager em;
-    private static Scene scene;
+   // private static Scene cene;
     private static PrimaryController primaryController;
 
     @Override
@@ -35,8 +35,11 @@ public class App extends Application {
         PrimaryController musicaViewController = (PrimaryController) fxmlLoader.getController();
         musicaViewController.setEntityManager(em);
         musicaViewController.cargarCanciones();
-        Scene scene = new Scene(root, 300, 250);
-
+        Scene scene = new Scene(root, 600, 400);
+        
+        primaryStage.setTitle("Musica view");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 @Override
     public void stop() throws Exception {
@@ -47,9 +50,9 @@ public class App extends Application {
         } catch (SQLException ex) {
         }
     }
-    void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
+//    void setRoot(String fxml) throws IOException {
+//        scene.setRoot(loadFXML(fxml));
+//    }
 
     private Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
