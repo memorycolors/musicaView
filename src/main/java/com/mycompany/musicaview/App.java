@@ -36,7 +36,7 @@ public class App extends Application {
         musicaViewController.setEntityManager(em);
         musicaViewController.cargarCanciones();
 
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 1000, 400);
 
         primaryStage.setTitle("Musica view");
         primaryStage.setScene(scene);
