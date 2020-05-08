@@ -20,7 +20,7 @@ public class App extends Application {
 
     private EntityManagerFactory emf;
     private EntityManager em;
-   // private static Scene cene;
+    // private static Scene cene;
     private static PrimaryController primaryController;
 
     @Override
@@ -35,25 +35,17 @@ public class App extends Application {
         PrimaryController musicaViewController = (PrimaryController) fxmlLoader.getController();
         musicaViewController.setEntityManager(em);
         musicaViewController.cargarCanciones();
+
         Scene scene = new Scene(root, 600, 400);
-        
+
         primaryStage.setTitle("Musica view");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-@Override
-    public void stop() throws Exception {
-        em.close();
-        emf.close();
-        try {
-            DriverManager.getConnection("jdbc:derby:BDmusica;shutdown=true");
-        } catch (SQLException ex) {
-        }
-    }
+
 //    void setRoot(String fxml) throws IOException {
 //        scene.setRoot(loadFXML(fxml));
 //    }
-
     private Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         primaryController = (PrimaryController) fxmlLoader.getController();
@@ -64,11 +56,18 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
-    
-
     public static void main(String[] args) {
         launch();
 
     }
 
+    @Override
+    public void stop() throws Exception {
+        em.close();
+        emf.close();
+        try {
+            DriverManager.getConnection("jdbc:derby:BDmusica;shutdown=true");
+        } catch (SQLException ex) {
+        }
+    }
 }
