@@ -1,16 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.musicaview.SecondaryController">
-    <children>
-        <Label text="Secondary View" />
-        <Button fx:id="secondaryButton" text="Switch to Primary View" onAction="#switchToPrimary" />
-    </children>
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-</VBox>
+<AnchorPane fx:id="rootDetalle" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="651.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.musicaview.SecondaryController">
+   <children>
+      <GridPane layoutX="30.0" layoutY="32.0" prefHeight="426.0" prefWidth="580.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="182.39996337890625" minWidth="10.0" prefWidth="80.99998779296875" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="443.999951171875" minWidth="10.0" prefWidth="366.39997558593745" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="210.4000244140625" minWidth="10.0" prefWidth="133.60002441406243" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="58.0" minHeight="10.0" prefHeight="13.000024414062523" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="80.19997558593752" minHeight="10.0" prefHeight="80.19997558593752" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Cantante" />
+            <Label layoutX="10.0" layoutY="23.0" prefHeight="18.0" prefWidth="54.0" text="Titulo" GridPane.rowIndex="1" />
+            <Label layoutX="10.0" layoutY="64.0" prefHeight="18.0" prefWidth="54.0" text="Album" GridPane.rowIndex="2" />
+            <Label text="Nº Canciones" GridPane.rowIndex="3" />
+            <Label prefHeight="18.0" prefWidth="65.0" text="Género" GridPane.rowIndex="4" />
+            <Label text="F.lanzamiento" GridPane.rowIndex="5" />
+            <Label text="Precio" GridPane.rowIndex="6" />
+            <Label text="Favorito" GridPane.rowIndex="7" />
+            <Label prefHeight="18.0" prefWidth="30.0" text="Foto" GridPane.rowIndex="8" />
+            <TextField fx:id="textFeldCantante" GridPane.columnIndex="1" />
+            <TextField fx:id="textFeldTitulo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="textFeldAlbum" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="textFeldNCanciones" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <DatePicker fx:id="datePickerFechaLanzamiento" prefHeight="26.0" prefWidth="430.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="textFieldPrecio" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Button mnemonicParsing="false" onAction="#onActionButtonCancelar" prefHeight="26.0" prefWidth="77.0" text="Cancelar" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="20.0" right="20.0" />
+               </GridPane.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onActionButtonGuardar" prefHeight="26.0" prefWidth="62.0" text="Guardar" GridPane.columnIndex="2">
+               <GridPane.margin>
+                  <Insets left="20.0" right="20.0" />
+               </GridPane.margin>
+            </Button>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <children>
+                  <CheckBox fx:id="checkBoxSi" mnemonicParsing="false" text="Sï">
+                     <HBox.margin>
+                        <Insets left="100.0" />
+                     </HBox.margin>
+                  </CheckBox>
+               </children>
+            </HBox>
+            <ComboBox fx:id="comboBoxGenero" prefHeight="26.0" prefWidth="375.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Button mnemonicParsing="false" onAction="#onActionButtonExaminar" text="Examinar ..." GridPane.columnIndex="2" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets left="20.0" right="20.0" />
+               </GridPane.margin>
+            </Button>
+            <ImageView fx:id="ImageViewFoto" fitHeight="71.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

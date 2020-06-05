@@ -8,7 +8,6 @@ package com.mycompany.musicaview.emtity;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,10 +39,9 @@ public class Genero implements Serializable {
     private Integer id;
     @Column(name = "CODIGO")
     private String codigo;
-    @Basic(optional = false)
     @Column(name = "NOMBRE")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "genero")
+    @OneToMany(mappedBy = "genero")
     private Collection<Cancion> cancionCollection;
 
     public Genero() {
@@ -51,11 +49,6 @@ public class Genero implements Serializable {
 
     public Genero(Integer id) {
         this.id = id;
-    }
-
-    public Genero(Integer id, String nombre) {
-        this.id = id;
-        this.nombre = nombre;
     }
 
     public Integer getId() {

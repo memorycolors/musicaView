@@ -6,7 +6,6 @@
 package com.mycompany.musicaview.emtity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -31,12 +30,12 @@ import javax.persistence.TemporalType;
 @NamedQueries({
     @NamedQuery(name = "Cancion.findAll", query = "SELECT c FROM Cancion c"),
     @NamedQuery(name = "Cancion.findById", query = "SELECT c FROM Cancion c WHERE c.id = :id"),
-    @NamedQuery(name = "Cancion.findByTitulo", query = "SELECT c FROM Cancion c WHERE c.titulo = :titulo"),
     @NamedQuery(name = "Cancion.findByCantante", query = "SELECT c FROM Cancion c WHERE c.cantante = :cantante"),
-    @NamedQuery(name = "Cancion.findByFechaLanzamiento", query = "SELECT c FROM Cancion c WHERE c.fechaLanzamiento = :fechaLanzamiento"),
-    @NamedQuery(name = "Cancion.findByPrecio", query = "SELECT c FROM Cancion c WHERE c.precio = :precio"),
     @NamedQuery(name = "Cancion.findByFavorito", query = "SELECT c FROM Cancion c WHERE c.favorito = :favorito"),
-    @NamedQuery(name = "Cancion.findByFoto", query = "SELECT c FROM Cancion c WHERE c.foto = :foto")})
+    @NamedQuery(name = "Cancion.findByFechaLanzamiento", query = "SELECT c FROM Cancion c WHERE c.fechaLanzamiento = :fechaLanzamiento"),
+    @NamedQuery(name = "Cancion.findByFoto", query = "SELECT c FROM Cancion c WHERE c.foto = :foto"),
+    @NamedQuery(name = "Cancion.findByPrecio", query = "SELECT c FROM Cancion c WHERE c.precio = :precio"),
+    @NamedQuery(name = "Cancion.findByTitulo", query = "SELECT c FROM Cancion c WHERE c.titulo = :titulo")})
 public class Cancion implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,25 +44,24 @@ public class Cancion implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Column(name = "TITULO")
-    private String titulo;
     @Column(name = "CANTANTE")
     private String cantante;
+    @Column(name = "FAVORITO")
+    private Short favorito;
     @Column(name = "FECHA_LANZAMIENTO")
     @Temporal(TemporalType.DATE)
     private Date fechaLanzamiento;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "PRECIO")
-    private BigDecimal precio;
-    @Column(name = "FAVORITO")
-    private Boolean favorito;
     @Column(name = "FOTO")
     private String foto;
+    @Column(name = "PRECIO")
+    private Long precio;
+    @Column(name = "TITULO")
+    private String titulo;
     @JoinColumn(name = "ALBUM", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Album album;
     @JoinColumn(name = "GENERO", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Genero genero;
 
     public Cancion() {
@@ -81,20 +79,20 @@ public class Cancion implements Serializable {
         this.id = id;
     }
 
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
     public String getCantante() {
         return cantante;
     }
 
     public void setCantante(String cantante) {
         this.cantante = cantante;
+    }
+
+    public Short getFavorito() {
+        return favorito;
+    }
+
+    public void setFavorito(Short favorito) {
+        this.favorito = favorito;
     }
 
     public Date getFechaLanzamiento() {
@@ -105,28 +103,28 @@ public class Cancion implements Serializable {
         this.fechaLanzamiento = fechaLanzamiento;
     }
 
-    public BigDecimal getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(BigDecimal precio) {
-        this.precio = precio;
-    }
-
-    public Boolean getFavorito() {
-        return favorito;
-    }
-
-    public void setFavorito(Boolean favorito) {
-        this.favorito = favorito;
-    }
-
     public String getFoto() {
         return foto;
     }
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public Long getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Long precio) {
+        this.precio = precio;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public Album getAlbum() {

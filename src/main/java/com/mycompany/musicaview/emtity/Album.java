@@ -8,7 +8,6 @@ package com.mycompany.musicaview.emtity;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,8 +27,8 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Album.findAll", query = "SELECT a FROM Album a"),
     @NamedQuery(name = "Album.findById", query = "SELECT a FROM Album a WHERE a.id = :id"),
-    @NamedQuery(name = "Album.findByNumeroCanciones", query = "SELECT a FROM Album a WHERE a.numeroCanciones = :numeroCanciones"),
-    @NamedQuery(name = "Album.findByNombre", query = "SELECT a FROM Album a WHERE a.nombre = :nombre")})
+    @NamedQuery(name = "Album.findByNombre", query = "SELECT a FROM Album a WHERE a.nombre = :nombre"),
+    @NamedQuery(name = "Album.findByNumeroCanciones", query = "SELECT a FROM Album a WHERE a.numeroCanciones = :numeroCanciones")})
 public class Album implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,12 +37,11 @@ public class Album implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Column(name = "NUMERO_CANCIONES")
-    private Short numeroCanciones;
-    @Basic(optional = false)
     @Column(name = "NOMBRE")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "album")
+    @Column(name = "NUMERO_CANCIONES")
+    private Short numeroCanciones;
+    @OneToMany(mappedBy = "album")
     private Collection<Cancion> cancionCollection;
 
     public Album() {
@@ -51,11 +49,6 @@ public class Album implements Serializable {
 
     public Album(Integer id) {
         this.id = id;
-    }
-
-    public Album(Integer id, String nombre) {
-        this.id = id;
-        this.nombre = nombre;
     }
 
     public Integer getId() {
@@ -66,20 +59,20 @@ public class Album implements Serializable {
         this.id = id;
     }
 
-    public Short getNumeroCanciones() {
-        return numeroCanciones;
-    }
-
-    public void setNumeroCanciones(Short numeroCanciones) {
-        this.numeroCanciones = numeroCanciones;
-    }
-
     public String getNombre() {
         return nombre;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Short getNumeroCanciones() {
+        return numeroCanciones;
+    }
+
+    public void setNumeroCanciones(Short numeroCanciones) {
+        this.numeroCanciones = numeroCanciones;
     }
 
     public Collection<Cancion> getCancionCollection() {
