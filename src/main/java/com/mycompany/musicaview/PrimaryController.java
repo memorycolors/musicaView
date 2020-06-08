@@ -26,6 +26,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import javax.persistence.Query;
 
@@ -45,11 +46,13 @@ public class PrimaryController implements Initializable {
     private TextField textFieldTitulo;
     @FXML
     private TextField textFieldCantante;
-    private TextField textFieldAlbum;
+    
     @FXML
     private AnchorPane rootPrimary;
     @FXML
     private ComboBox<Album> ComboBoxAlbum;
+    @FXML
+    private VBox VBoxPrimary;
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -139,15 +142,16 @@ public class PrimaryController implements Initializable {
                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondary.fxml"));
                Parent rootDetalle= fxmlLoader.load();
                SecondaryController secondaryController = (SecondaryController) fxmlLoader.getController();
-               secondaryController.setRootPrimary(rootPrimary);
-//               secondaryController.setTableView(tableViewmusica);
-//               secondaryController.setCancion(entityManager, cancionSeleccionada, false);
-//               secondaryController.mostrarDatos();
+               secondaryController.setRootPrimary(VBoxPrimary);
+               
+               secondaryController.setTableViewPrevio(tableViewmusica);
+               secondaryController.setCancion(entityManager, cancionSeleccionada, false);
+               secondaryController.mostrarDatos();
                // Ocultar la vista de la lista
-               rootPrimary.setVisible(false);
+               VBoxPrimary.setVisible(false);
 
                // Añadir la vista de detalle al StackPane principal para que se muestre
-               StackPane rootMain = (StackPane) rootPrimary.getScene().getRoot();
+               StackPane rootMain = (StackPane) VBoxPrimary.getScene().getRoot();
                rootMain.getChildren().add(rootDetalle);
            } catch (IOException e) {
                Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, e);
@@ -158,7 +162,7 @@ public class PrimaryController implements Initializable {
            Alert alert = new Alert(AlertType.WARNING, "No ha saleccionado una cancion");
            alert.showAndWait();
        }
-   
+       
            
         
 }
@@ -168,6 +172,8 @@ public class PrimaryController implements Initializable {
 
     @FXML
     private void onActionButtonNuevo(ActionEvent event) {
+   // secondaryController.setTableViewPrevio(tableViewmusica);
+   // secondaryController.setCancion(entityManager, cancionSeleccionada, True);
     }
 
 }

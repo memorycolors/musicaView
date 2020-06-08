@@ -45,7 +45,6 @@
             <Label prefHeight="18.0" prefWidth="30.0" text="Foto" GridPane.rowIndex="8" />
             <TextField fx:id="textFeldCantante" GridPane.columnIndex="1" />
             <TextField fx:id="textFeldTitulo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="textFeldAlbum" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="textFeldNCanciones" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <DatePicker fx:id="datePickerFechaLanzamiento" prefHeight="26.0" prefWidth="430.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <TextField fx:id="textFieldPrecio" GridPane.columnIndex="1" GridPane.rowIndex="6" />
@@ -75,6 +74,7 @@
                </GridPane.margin>
             </Button>
             <ImageView fx:id="ImageViewFoto" fitHeight="71.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <ComboBox fx:id="comboBoxAlbum" prefHeight="26.0" prefWidth="379.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </children>

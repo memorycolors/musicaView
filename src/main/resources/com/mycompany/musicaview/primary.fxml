@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="560.0" prefWidth="782.0" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.musicaview.PrimaryController">
+<VBox fx:id="VBoxPrimary" alignment="CENTER" prefHeight="560.0" prefWidth="782.0" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.musicaview.PrimaryController">
    <children>
       <TableView fx:id="tableViewmusica" prefHeight="358.0" prefWidth="776.0">
         <columns>
