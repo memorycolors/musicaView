@@ -9,6 +9,7 @@ import javafx.scene.control.TableColumn;
 import javax.persistence.EntityManager;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
@@ -46,7 +48,7 @@ public class PrimaryController implements Initializable {
     private TextField textFieldTitulo;
     @FXML
     private TextField textFieldCantante;
-    
+
     @FXML
     private AnchorPane rootPrimary;
     @FXML
@@ -68,23 +70,23 @@ public class PrimaryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
-        ComboBoxAlbum.setConverter(new StringConverter<Album>() {
-           @Override
-           public String toString(Album album) {
-               if (album == null) {
-                   return null;
-               } else {
-                   return album.getNombre();
-               }
-           }
 
-           @Override
-           public Album fromString(String Nombre) {
-               return null;
-           }
-       }
-       );
+        ComboBoxAlbum.setConverter(new StringConverter<Album>() {
+            @Override
+            public String toString(Album album) {
+                if (album == null) {
+                    return null;
+                } else {
+                    return album.getNombre();
+                }
+            }
+
+            @Override
+            public Album fromString(String Nombre) {
+                return null;
+            }
+        }
+        );
         columnaTitulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
         columnaCantante.setCellValueFactory(new PropertyValueFactory<>("cantante"));
         columnaAlbum.setCellValueFactory(
@@ -100,8 +102,8 @@ public class PrimaryController implements Initializable {
             if (cancionSeleccionada != null) {
                 textFieldTitulo.setText(cancionSeleccionada.getTitulo());
                 if (cancionSeleccionada.getAlbum() != null) {
-                   ComboBoxAlbum.setValue(cancionSeleccionada.getAlbum());
-               }
+                    ComboBoxAlbum.setValue(cancionSeleccionada.getAlbum());
+                }
                 textFieldCantante.setText(cancionSeleccionada.getCantante());
 
             } else {
@@ -135,45 +137,87 @@ public class PrimaryController implements Initializable {
     @FXML
     private void onActionButtonEditar(ActionEvent event) {
         // Cargar la vista de detalle
-         int numFilaSeleccionada = tableViewmusica.getSelectionModel().getSelectedIndex();
-       if (numFilaSeleccionada != -1) {
-           try {
-               // Cargar la vista de detalle
-               FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondary.fxml"));
-               Parent rootDetalle= fxmlLoader.load();
-               SecondaryController secondaryController = (SecondaryController) fxmlLoader.getController();
-               secondaryController.setRootPrimary(VBoxPrimary);
-               
-               secondaryController.setTableViewPrevio(tableViewmusica);
-               secondaryController.setCancion(entityManager, cancionSeleccionada, false);
-               secondaryController.mostrarDatos();
-               // Ocultar la vista de la lista
-               VBoxPrimary.setVisible(false);
+        int numFilaSeleccionada = tableViewmusica.getSelectionModel().getSelectedIndex();
+        if (numFilaSeleccionada != -1) {
+            try {
+                // Cargar la vista de detalle
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondary.fxml"));
+                Parent rootDetalle = fxmlLoader.load();
+                SecondaryController secondaryController = (SecondaryController) fxmlLoader.getController();
+                secondaryController.setRootPrimary(VBoxPrimary);
 
-               // Añadir la vista de detalle al StackPane principal para que se muestre
-               StackPane rootMain = (StackPane) VBoxPrimary.getScene().getRoot();
-               rootMain.getChildren().add(rootDetalle);
-           } catch (IOException e) {
-               Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, e);
+                secondaryController.setTableViewPrevio(tableViewmusica);
+                secondaryController.setCancion(entityManager, cancionSeleccionada, false);
+                secondaryController.mostrarDatos();
+                // Ocultar la vista de la lista
+                VBoxPrimary.setVisible(false);
 
-           }
+                // Añadir la vista de detalle al StackPane principal para que se muestre
+                StackPane rootMain = (StackPane) VBoxPrimary.getScene().getRoot();
+                rootMain.getChildren().add(rootDetalle);
+            } catch (IOException e) {
+                Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, e);
 
-       } else {
-           Alert alert = new Alert(AlertType.WARNING, "No ha saleccionado una cancion");
-           alert.showAndWait();
-       }
-       
-           
-        
-}
+            }
+
+        } else {
+            Alert alert = new Alert(AlertType.WARNING, "No ha saleccionado una cancion");
+            alert.showAndWait();
+        }
+
+    }
+
     @FXML
     private void onActionButtonSuprimir(ActionEvent event) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar");
+        alert.setHeaderText("¿Desea suprimir el siguiente registro?");
+        alert.setContentText(cancionSeleccionada.getCantante() + " "
+                + cancionSeleccionada.getTitulo());
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            // Acciones a realizar si el usuario acepta
+            entityManager.getTransaction().begin();
+            cancionSeleccionada = entityManager.merge(cancionSeleccionada);
+            entityManager.remove(cancionSeleccionada);
+            entityManager.getTransaction().commit();
+
+            tableViewmusica.getItems().remove(cancionSeleccionada);
+
+            tableViewmusica.getFocusModel().focus(null);
+            tableViewmusica.requestFocus();
+        } else {
+            // Acciones a realizar si el usuario cancela
+            int numFilaSeleccionada = tableViewmusica.getSelectionModel().getSelectedIndex();
+            tableViewmusica.getItems().set(numFilaSeleccionada, cancionSeleccionada);
+            TablePosition pos = new TablePosition(tableViewmusica, numFilaSeleccionada, null);
+            tableViewmusica.getFocusModel().focus(pos);
+            tableViewmusica.requestFocus();
+        }
     }
 
     @FXML
     private void onActionButtonNuevo(ActionEvent event) {
-   // secondaryController.setTableViewPrevio(tableViewmusica);
-   // secondaryController.setCancion(entityManager, cancionSeleccionada, True);
+        // Cargar la vista de detalle
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Secondary.fxml"));
+            Parent rootDetalleView = fxmlLoader.load();
+            SecondaryController sencondaryController = (SecondaryController) fxmlLoader.getController();
+            sencondaryController.setRootPrimary(rootPrimary);
+            sencondaryController.setTableViewPrevio(tableViewmusica);
+            
+            cancionSeleccionada = new Cancion();
+            sencondaryController.setCancion(entityManager, cancionSeleccionada, true);
+            sencondaryController.mostrarDatos();
+            
+            VBoxPrimary.setVisible(false);
+            StackPane rootMain = (StackPane) rootPrimary.getScene().getRoot();
+            rootMain.getChildren().add(rootDetalleView);
+        } catch (IOException e) {
+                Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, e);
+
+            }
     }
 
 }

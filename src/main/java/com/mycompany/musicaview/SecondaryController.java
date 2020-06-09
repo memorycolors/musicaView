@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javax.persistence.EntityManager;
 
 public class SecondaryController {
@@ -52,7 +53,7 @@ public class SecondaryController {
 
     public void setCancion(EntityManager entityManager, Cancion cancion, boolean nuevaCancion) {
         this.entityManager = entityManager;
-        entityManager.getTransaction().begin();
+
         if (!nuevaCancion) {
             this.cancion = entityManager.find(Cancion.class, cancion.getId());
         } else {
@@ -65,11 +66,14 @@ public class SecondaryController {
     public void mostrarDatos() {
         textFeldCantante.setText(cancion.getCantante());
         textFeldTitulo.setText(cancion.getTitulo());
-
+        
     }
 
     @FXML
     private void onActionButtonCancelar(ActionEvent event) {
+        StackPane rootMain = (StackPane) rootDetalle.getScene().getRoot();
+        rootMain.getChildren().remove(rootDetalle);
+        rootPrimary.setVisible(true);
         entityManager.getTransaction().rollback();
 
         int numFilaSeleccionada = tableViewPrevio.getSelectionModel().getSelectedIndex();
@@ -80,14 +84,31 @@ public class SecondaryController {
 
     @FXML
     private void onActionButtonGuardar(ActionEvent event) {
-        textFeldCantante.setText(cancion.getCantante());
-        textFeldTitulo.setText(cancion.getTitulo());
+        StackPane rootMain = (StackPane) rootDetalle.getScene().getRoot();
+        rootMain.getChildren().remove(rootDetalle);
+        cancion.setCantante(textFeldCantante.getText());
+        cancion.setTitulo(textFeldTitulo.getText());
+        
+        int numFilaSeleccionada;
         if (nuevaCancion) {
-            entityManager.persist(cancion);
-        } else {
+            entityManager.getTransaction().begin();
+            tableViewPrevio.getItems().add(cancion);
+            numFilaSeleccionada = tableViewPrevio.getItems().size() - 1;
+            tableViewPrevio.getSelectionModel().select(numFilaSeleccionada);
+            tableViewPrevio.scrollTo(numFilaSeleccionada);
             entityManager.merge(cancion);
+            entityManager.persist(cancion);
+            entityManager.getTransaction().commit();
+        } else {
+            numFilaSeleccionada = tableViewPrevio.getSelectionModel().getSelectedIndex();
+            tableViewPrevio.getItems().set(numFilaSeleccionada, cancion);
+
         }
-        entityManager.getTransaction().commit();
+
+        TablePosition pos = new TablePosition(tableViewPrevio, numFilaSeleccionada, null);
+        tableViewPrevio.getFocusModel().focus(pos);
+        tableViewPrevio.requestFocus();
+        rootPrimary.setVisible(true);
     }
 
     @FXML
