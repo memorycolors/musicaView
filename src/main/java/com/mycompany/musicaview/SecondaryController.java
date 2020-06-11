@@ -92,7 +92,7 @@ public class SecondaryController {
         int numFilaSeleccionada;
         if (nuevaCancion) {
             entityManager.getTransaction().begin();
-            tableViewPrevio.getItems().add(cancion);
+            tableViewPrevio.getItems().add(nuevaCancion);
             numFilaSeleccionada = tableViewPrevio.getItems().size() - 1;
             tableViewPrevio.getSelectionModel().select(numFilaSeleccionada);
             tableViewPrevio.scrollTo(numFilaSeleccionada);
@@ -102,7 +102,9 @@ public class SecondaryController {
         } else {
             numFilaSeleccionada = tableViewPrevio.getSelectionModel().getSelectedIndex();
             tableViewPrevio.getItems().set(numFilaSeleccionada, cancion);
-
+            entityManager.getTransaction().begin();
+            entityManager.merge(cancion);
+            entityManager.getTransaction().commit();
         }
 
         TablePosition pos = new TablePosition(tableViewPrevio, numFilaSeleccionada, null);

@@ -204,7 +204,7 @@ public class PrimaryController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Secondary.fxml"));
             Parent rootDetalleView = fxmlLoader.load();
             SecondaryController sencondaryController = (SecondaryController) fxmlLoader.getController();
-            sencondaryController.setRootPrimary(rootPrimary);
+            sencondaryController.setRootPrimary(VBoxPrimary);
             sencondaryController.setTableViewPrevio(tableViewmusica);
             
             cancionSeleccionada = new Cancion();
@@ -212,7 +212,8 @@ public class PrimaryController implements Initializable {
             sencondaryController.mostrarDatos();
             
             VBoxPrimary.setVisible(false);
-            StackPane rootMain = (StackPane) rootPrimary.getScene().getRoot();
+            
+            StackPane rootMain = (StackPane) VBoxPrimary.getScene().getRoot();
             rootMain.getChildren().add(rootDetalleView);
         } catch (IOException e) {
                 Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, e);
